@@ -1,30 +1,39 @@
 package main
 
 import (
-	"gopkg.in/ini.v1"
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
 )
+
+type ConfigList struct {
+	Driver  string
+	User    string
+	DbName  string
+	SslMode string
+}
 
 var Config ConfigList
 
 func init() {
 	cfg, _ := ini.load("config.ini")
 	Config = ConfigList{
-		Url:    cfg.Section("db").key("url").MustString(),
-		Driver: cfg.Section("db").key("driver").String(),
+		Driver:  cfg.Section("db").key("driver").String(),
+		User:    cfg.Section("db").key("user").String(),
+		DbName:  cfg.Section("db").key("dbname").String(),
+		SslMode: cfg.Section("db").key("sslmode").String(),
 	}
 }
 
 func main() {
-	connUrl := Config.Url
-	db, err := sql.Open(Config.Driver, connUrl)
+	connStr := "user=" + Config.User + "dbname=" + Config.DbName + "sslmode=" + Config.SslMode
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	age := 21
-	rows, err := db.Query("SELECT name FROM users WHERE age = $1", age)
+	rows, err := db.Query("select * from user")
+	fmt.Printf("%v", rows)
 }
