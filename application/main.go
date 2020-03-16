@@ -40,11 +40,15 @@ func main() {
 	}
 
 	rows, err := db.Query("select * from user")
-	var users []User
+
+	var usersMap = map[int]*User{}
+	var count = 0
 	for rows.Next() {
 		var user User
 		rows.Scan(&user.Id)
-		users = append(users, user)
+
+		usersMap[count] = &User{Id: user.Id}
+		count++
 	}
-	fmt.Printf("%v", users)
+	fmt.Printf("%s", usersMap[0].Id)
 }
