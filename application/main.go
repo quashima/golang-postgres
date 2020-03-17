@@ -32,15 +32,7 @@ func init() {
 	}
 }
 
-func main() {
-	connStr := "user=" + Config.User + " dbname=" + Config.DbName + " sslmode=" + Config.SslMode
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	rows, err := db.Query("select * from user")
-
+func arrayMap(rows *sql.Rows) map[int]*User {
 	var usersMap = map[int]*User{}
 	var count = 0
 	for rows.Next() {
@@ -50,5 +42,18 @@ func main() {
 		usersMap[count] = &User{Id: user.Id}
 		count++
 	}
-	fmt.Printf("%s", usersMap[0].Id)
+	return usersMap
+}
+
+func main() {
+	connStr := "user=" + Config.User + " dbname=" + Config.DbName + " sslmode=" + Config.SslMode
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rows, err := db.Query("select * from user")
+	resultsMap := arrayMap(rows)
+
+	fmt.Printf("%s", resultsMap[0].Id)
 }
