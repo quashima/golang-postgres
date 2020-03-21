@@ -26,7 +26,7 @@ func init() {
 	}
 }
 
-func connection() *sql.Rows {
+func Connection() *sql.Rows {
 	connStr := "user=" + Config.User + " dbname=" + Config.DbName + " sslmode=" + Config.SslMode
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {

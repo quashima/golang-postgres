@@ -3,10 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/lib/pq"
-	"gopkg.in/ini.v1"
+
+	dbconnection "../interfaces/database"
 )
 
 type ConfigList struct {
@@ -22,16 +22,6 @@ type User struct {
 
 var Config ConfigList
 
-func init() {
-	cfg, _ := ini.Load("../config.ini")
-	Config = ConfigList{
-		Driver:  cfg.Section("db").Key("driver").String(),
-		User:    cfg.Section("db").Key("user").String(),
-		DbName:  cfg.Section("db").Key("dbname").String(),
-		SslMode: cfg.Section("db").Key("sslmode").String(),
-	}
-}
-
 func arrayMap(rows *sql.Rows) map[int]*User {
 	var usersMap = map[int]*User{}
 	var count = 0
@@ -46,13 +36,7 @@ func arrayMap(rows *sql.Rows) map[int]*User {
 }
 
 func main() {
-	connStr := "user=" + Config.User + " dbname=" + Config.DbName + " sslmode=" + Config.SslMode
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	rows, err := db.Query("select * from user")
+	rows := dbconnection.Connection()
 	resultsMap := arrayMap(rows)
 
 	fmt.Printf("%s", resultsMap[0].Id)
