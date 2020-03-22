@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/lib/pq"
+	dbconnection "./infrastructure"
 
-	dbconnection "../interfaces/database"
+	_ "github.com/lib/pq"
 )
 
 type ConfigList struct {
