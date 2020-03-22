@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	usertable "./domain"
 	dbconnection "./infrastructure"
 
 	_ "github.com/lib/pq"
@@ -16,20 +17,16 @@ type ConfigList struct {
 	SslMode string
 }
 
-type User struct {
-	Id string
-}
-
 var Config ConfigList
 
-func arrayMap(rows *sql.Rows) map[int]*User {
-	var usersMap = map[int]*User{}
+func arrayMap(rows *sql.Rows) map[int]*usertable.Column {
+	var usersMap = map[int]*usertable.Column{}
 	var count = 0
 	for rows.Next() {
-		var user User
+		var user usertable.Column
 		rows.Scan(&user.Id)
 
-		usersMap[count] = &User{Id: user.Id}
+		usersMap[count] = &usertable.Column{Id: user.Id}
 		count++
 	}
 	return usersMap
