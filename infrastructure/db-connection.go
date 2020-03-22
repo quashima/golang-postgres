@@ -17,7 +17,7 @@ type ConfigList struct {
 var Config ConfigList
 
 func init() {
-	cfg, _ := ini.Load("../config.ini")
+	cfg, _ := ini.Load("./config.ini")
 	Config = ConfigList{
 		Driver:  cfg.Section("db").Key("driver").String(),
 		User:    cfg.Section("db").Key("user").String(),
