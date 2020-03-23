@@ -3,7 +3,7 @@ package row
 import (
 	"database/sql"
 
-	usertable "../../domain"
+	usertable "../../domain/table"
 )
 
 func RowToArrayMap(rows *sql.Rows) map[int]*usertable.Column {
