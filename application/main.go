@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	dbconnection "./infrastructure"
-	row "./interface/controller"
+	dbconnection "../infrastructure"
+	row "../interface/controller"
 
 	_ "github.com/lib/pq"
 )
