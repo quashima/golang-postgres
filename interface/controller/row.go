@@ -3,6 +3,8 @@ package row
 import (
 	"database/sql"
 
+	_ "github.com/lib/pq"
+
 	usertable "../../domain/table"
 )
 

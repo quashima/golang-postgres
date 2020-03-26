@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"gopkg.in/ini.v1"
+
+	_ "github.com/lib/pq"
 )
 
 type ConfigList struct {
