@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 
-	dbconnection "./infrastructure"
-	row "./interface/controller"
-
-	_ "github.com/lib/pq"
+	dbconnection "../infrastructure"
+	row "../interface/controller"
 )
 
 func main() {
